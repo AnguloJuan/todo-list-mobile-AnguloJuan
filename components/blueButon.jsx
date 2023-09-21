@@ -9,13 +9,13 @@ const BlueButton = (params,) => {
         <Pressable
             title={title}
             style={{
-                marginTop: "2rem",
-                paddingTop: "0.375rem",
-                paddingBottom: "0.375rem",
-                paddingLeft: "0.75rem",
-                paddingRight: "0.75rem",
+                marginTop: 32,
+                paddingTop: 6,
+                paddingBottom: 6,
+                paddingLeft: 12,
+                paddingRight: 12,
                 justifyContent: "center",
-                borderRadius: "0.375rem",
+                borderRadius: 6,
                 width: "100%",
                 backgroundColor: backgroundColor,
                 boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
@@ -26,10 +26,10 @@ const BlueButton = (params,) => {
         >
             <Text style={{
                 textAlign: "center",
-                fontSize: "0.875rem",
-                lineHeight: "1.25rem",
+                fontSize: 14,
+                lineHeight: 20,
                 fontWeight: "600",
-                lineHeight: "1.5rem",
+                lineHeight: 24,
                 color: "#ffffff",
             }}>
                 {title}

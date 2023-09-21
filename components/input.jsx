@@ -18,7 +18,7 @@ const Input = (props) => {
     return (
         id !== "" ? (
             <>
-                <View style={{ marginVertical: '0.375rem', }}>
+                <View style={{ marginVertical: 6, }}>
                     <Text style={styles.label} >
                         {label}
                     </Text>
@@ -37,12 +37,12 @@ const Input = (props) => {
                             onBlur={onBlur}
                             style={{
                                 display: "block",
-                                paddingTop: "0.375rem",
-                                paddingBottom: "0.375rem",
-                                paddingLeft: "0.75rem",
-                                paddingRight: "0.75rem",
+                                paddingTop: 6,
+                                paddingBottom: 6,
+                                paddingLeft: 12,
+                                paddingRight: 12,
                                 outline: "none",
-                                borderRadius: "0.375rem",
+                                borderRadius: 6,
                                 border: "2px solid",
                                 borderColor: invalid ? "#EF4444" : borderColor,
                                 width: "100%",

@@ -6,25 +6,25 @@ const HeadLogo = (params,) => {
     return (
         <View style={{
             width: "100%",
-            maxWidth: "24rem",
+            maxWidth: 384,
             alignItems: "center",
         }}>
             <Image
                 style={{
                     width: 'auto',
-                    width: "7rem",
-                    height: "7rem",
+                    width: 112,
+                    height: 112,
                 }}
                 source={"./assets/Tech-Background-PNG.png"}
                 alt="To-do"
             />
             <Text style={{
-                marginTop: "2.5rem",
-                fontSize: "1.5rem",
-                lineHeight: "2rem",
+                marginTop:40,
+                fontSize: 24,
+                lineHeight: 32,
                 fontWeight: 700,
-                letterSpacing: "-0.025em",
-                lineHeight: "2.25rem",
+                letterSpacing: -4,
+                lineHeight: 36,
                 textAlign: "center",
                 color: "#F3F4F6",
             }}>

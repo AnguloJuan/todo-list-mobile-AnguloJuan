@@ -39,9 +39,9 @@ export default function signup() {
                 </View>
 
                 <Text style={{
-                    marginTop: "1.5rem",
-                    fontSize: "0.875rem",
-                    lineHeight: "1.25rem",
+                    marginTop: 24,
+                    fontSize: 14,
+                    lineHeight: 20,
                     textAlign: "center",
                     color: "#6B7280",
                 }}>
@@ -49,9 +49,9 @@ export default function signup() {
                 </Text>
 
                 <Text style={{
-                    marginTop: "0.75rem",
-                    fontSize: "0.875rem",
-                    lineHeight: "1.25rem",
+                    marginTop: 12,
+                    fontSize: 14,
+                    lineHeight: 20,
                     textAlign: "center",
                     color: "#6B7280",
                 }}>
@@ -68,25 +68,24 @@ export default function signup() {
 const styles = StyleSheet.create({
     container: {
         display: "flex",
-        paddingLeft: "2rem",
-        paddingRight: "2rem",
-        paddingTop: "3rem",
-        paddingBottom: "3rem",
+        paddingLeft: 32,
+        paddingRight: 32,
+        paddingTop: 48,
+        paddingBottom: 48,
         flexDirection: "column",
-        flex: "1 1 0%",
         justifyContent: "center",
         alignItems: "center",
         minHeight: "100%"
     },
     form: {
-        marginTop: "1rem",
+        marginTop: 16,
         width: "100%",
-        maxWidth: "24rem",
+        maxWidth: 384,
     },
     link: {
         alignSelf: 'center',
         fontWeight: 600,
-        lineHeight: "1.5rem",
+        lineHeight: 24,
         color: "#60A5FA",
     }
 });
