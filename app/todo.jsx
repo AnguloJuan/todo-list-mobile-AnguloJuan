@@ -1,11 +1,38 @@
 import { AddIcon, Button, ButtonIcon, ButtonText, CheckIcon, Checkbox, CheckboxIcon, CheckboxIndicator, CheckboxLabel, CloseIcon, Divider, HStack, Heading, Icon, Input, InputField, Modal, ModalBackdrop, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, Pressable, Text, Textarea, TextareaInput, VStack } from "@gluestack-ui/themed";
-import { useState, ref, useRef } from "react";
+import { useState, ref, useRef, useReducer } from "react";
+import TaskList from "../components/taskList";
 
 export default function Todo() {
-    const [tasks, setTasks] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [showTaskModal, setShowTaskModal] = useState(false);
-    const ref = useRef(null)
+    const ref = useRef(null);
+    const [tasks, dispatch] = useReducer(
+        tasksReducer,
+        initialTasks
+    );
+
+    function handleAddTask(text) {
+        dispatch({
+            type: 'added',
+            id: nextId++,
+            text: text,
+        });
+    }
+
+    function handleChangeTask(task) {
+        dispatch({
+            type: 'changed',
+            task: task
+        });
+    }
+
+    function handleDeleteTask(taskId) {
+        dispatch({
+            type: 'deleted',
+            id: taskId
+        });
+    }
+
     return (
         <VStack
             width="100%"
@@ -114,102 +141,47 @@ export default function Todo() {
                 <Text color="white">Actions</Text>
             </HStack>
 
-            <Pressable bgColor="$coolGray700" width="100%" p="$3"
-                sx={{
-                    ":hover": {
-                        bgColor: "$coolGray600"
-                    }
-                }}>
-                <HStack width="100%" alignItems="center" justifyContent="space-between">
-                    <Checkbox size="md" sx={{
-                        ":checked": {
-                            _text: {
-                                textDecorationLine: "line-through",
-                            }
-                        }
-                    }}>
-                        <CheckboxIndicator mr="$2">
-                            <CheckboxIcon as={CheckIcon} />
-                        </CheckboxIndicator>
-                        <CheckboxLabel color="white">Tarea 1</CheckboxLabel>
-                    </Checkbox>
-                    <Button mx="$1" color="white" variant="link" ref={ref} onPress={() => setShowTaskModal(true)}>Description</Button>
-                    <Button size="sm" variant="solid" action="negative" alignSelf="flex-end">
-                        <ButtonIcon as={CloseIcon} />
-                    </Button>
-                </HStack>
-            </Pressable>
+            <TaskList
+                tasks={tasks}
+                onChangeTask={handleChangeTask}
+                onDeleteTask={handleDeleteTask}
+            />
 
-
-            <Modal
-                isOpen={showTaskModal}
-                onClose={() => {
-                    setShowTaskModal(false)
-                }}
-                finalFocusRef={ref}
-                size="md"
-                scrollBehavior="inside"
-            >
-                <ModalBackdrop />
-                <ModalContent bgColor="$coolGray700">
-                    <ModalHeader>
-                        <Heading size="lg" color="white">Task</Heading>
-                        <ModalCloseButton stroke={"$wihte"} bgColor="$coolGray600">
-                            <Icon as={CloseIcon} stroke="white" />
-                        </ModalCloseButton>
-                    </ModalHeader>
-                    <ModalBody color="white">
-                        <Text mb="$2" color="white">Task title</Text>
-                        <Input
-                            variant="outline"
-                            size="md"
-                            sx={{
-                                ":focus": {
-                                    borderColor: "$blue500"
-                                }
-                            }}
-                        >
-                            <InputField color="white" placeholder="Task title" />
-                        </Input>
-                        <Text mt="$4" mb="$2" color="white">Task description</Text>
-                        <Textarea variant="outline" size="md" sx={{
-                            ":focus": {
-                                borderColor: "$blue500"
-                            }
-                        }}>
-                            <TextareaInput color="white" placeholder="Task description" />
-                        </Textarea>
-                    </ModalBody>
-                    <ModalFooter>
-                        <Button
-                            variant="outline"
-                            size="sm"
-                            action="secondary"
-                            mr="$3"
-                            sx={{
-                                ":hover": {
-                                    bgColor: "$coolGray600"
-                                }
-                            }}
-                            onPress={() => {
-                                setShowTaskModal(false)
-                            }}
-                        >
-                            <ButtonText color="white">Cancel</ButtonText>
-                        </Button>
-                        <Button
-                            size="sm"
-                            action="positive"
-                            borderWidth="$0"
-                            onPress={() => {
-                                setShowTaskModal(false)
-                            }}
-                        >
-                            <ButtonText>Save</ButtonText>
-                        </Button>
-                    </ModalFooter>
-                </ModalContent>
-            </Modal>
         </VStack>
     )
 }
+
+function tasksReducer(tasks, action) {
+    switch (action.type) {
+        case 'added': {
+            return [...tasks, {
+                id: action.id,
+                title: action.text,
+                description: action.description,
+                done: false
+            }];
+        }
+        case 'changed': {
+            return tasks.map(t => {
+                if (t.id === action.task.id) {
+                    return action.task;
+                } else {
+                    return t;
+                }
+            });
+        }
+        case 'deleted': {
+            return tasks.filter(t => t.id !== action.id);
+        }
+        default: {
+            throw Error('Unknown action: ' + action.type);
+        }
+    }
+}
+
+let nextId = 3;
+const initialTasks = [
+    { id: 0, title: 'Philosopher’s Path', description: '', done: true },
+    { id: 1, title: 'Visit the temple', description: '', done: false },
+    { id: 2, title: 'Drink matcha', description: '', done: false }
+];
