@@ -91,7 +91,9 @@ export default function signup() {
                 </View>
 
                 <View>
-                    <BlueButton title={"Log In"} />
+                    <Link href="/todo">
+                        <BlueButton title={"Log In"} />
+                    </Link>
                 </View>
 
                 <Text style={{

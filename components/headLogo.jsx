@@ -23,7 +23,6 @@ const HeadLogo = (params,) => {
                 fontSize: 24,
                 lineHeight: 32,
                 fontWeight: 700,
-                letterSpacing: -4,
                 lineHeight: 36,
                 textAlign: "center",
                 color: "#F3F4F6",
