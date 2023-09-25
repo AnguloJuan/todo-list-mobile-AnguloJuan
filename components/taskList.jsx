@@ -36,8 +36,9 @@ export default function TaskList({
 
 function Task({ task, onChange, onDelete }) {
     const [showTaskModal, setShowTaskModal] = useState(false);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [title, setTitle] = useState(task.title);
-    const [description, setDescription] = useState(task.description);
+    const [description, setDescription] = useState(task.description || '');
     const ref = useRef(null);
     const toast = useToast();
 
@@ -68,7 +69,7 @@ function Task({ task, onChange, onDelete }) {
 
             <Button mx="$0.5" minWidth={"$1/3"} color="white" variant="link" ref={ref} onPress={() => setShowTaskModal(true)}>{task.description}</Button>
 
-            <Button size="sm" variant="solid" action="negative" alignSelf="flex-end" onPress={() => onDelete(task.id)}>
+            <Button size="sm" variant="solid" action="negative" alignSelf="flex-end" onPress={() => setShowDeleteModal(true)}>
                 <ButtonIcon as={CloseIcon} />
             </Button>
 
@@ -142,7 +143,7 @@ function Task({ task, onChange, onDelete }) {
                             action="positive"
                             borderWidth="$0"
                             onPress={() => {
-                                if (document.getElementById('title').value === '') {
+                                if (title === '') {
                                     toast.show({
                                         placement: "top",
                                         render: ({ id }) => {
@@ -162,13 +163,83 @@ function Task({ task, onChange, onDelete }) {
                                 }
                                 onChange({
                                     ...task,
-                                    text: document.getElementById('title').value,
-                                    description: document.getElementById('description').value
+                                    title: title,
+                                    description: description
                                 });
                                 setShowTaskModal(false);
                             }}
                         >
                             <ButtonText>Save</ButtonText>
+                        </Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
+
+            <Modal
+                isOpen={showDeleteModal}
+                onClose={() => {
+                    setShowDeleteModal(false)
+                }}
+                finalFocusRef={ref}
+                size="md"
+                scrollBehavior="inside"
+            >
+                <ModalBackdrop />
+                <ModalContent bgColor="$coolGray700">
+                    <ModalHeader>
+                        <Heading size="lg" color="white">Warning</Heading>
+                        <ModalCloseButton stroke={"$wihte"} bgColor="$coolGray600">
+                            <Icon as={CloseIcon} stroke="white" />
+                        </ModalCloseButton>
+                    </ModalHeader>
+                    <ModalBody color="white">
+                        <Text mb="$2" color="white">
+                            Are you sure you want to delete this task?
+                            This action cannot be undone.
+                        </Text>
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button
+                            variant="outline"
+                            size="sm"
+                            action="secondary"
+                            mr="$3"
+                            sx={{
+                                ":hover": {
+                                    bgColor: "$coolGray600"
+                                }
+                            }}
+                            onPress={() => {
+                                setShowDeleteModal(false)
+                            }}
+                        >
+                            <ButtonText color="white">Cancel</ButtonText>
+                        </Button>
+                        <Button
+                            size="sm"
+                            action="positive"
+                            borderWidth="$0"
+                            onPress={() => {
+                                onDelete(task.id);
+                                toast.show({
+                                    placement: "top",
+                                    render: ({ id }) => {
+                                        return (
+                                            <Toast nativeId={id} action="success" variant="accent">
+                                                <VStack space="xs">
+                                                    <ToastTitle>Deleted</ToastTitle>
+                                                    <ToastDescription>
+                                                        Task deleted successfully
+                                                    </ToastDescription>
+                                                </VStack>
+                                            </Toast>
+                                        )
+                                    },
+                                })
+                                setShowDeleteModal(false);
+                            }}
+                        >
+                            <ButtonText>Delete</ButtonText>
                         </Button>
                     </ModalFooter>
                 </ModalContent>

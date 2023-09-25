@@ -1,6 +1,7 @@
 import { AddIcon, Button, ButtonIcon, ButtonText, CheckIcon, Checkbox, CheckboxIcon, CheckboxIndicator, CheckboxLabel, CloseIcon, Divider, HStack, Heading, Icon, Input, InputField, Modal, ModalBackdrop, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, Pressable, Text, Textarea, TextareaInput, VStack } from "@gluestack-ui/themed";
 import { useState, ref, useRef, useReducer } from "react";
 import TaskList from "../components/taskList";
+import AddTask from "../components/addTask";
 
 export default function Todo() {
     const [showModal, setShowModal] = useState(false);
@@ -11,11 +12,12 @@ export default function Todo() {
         initialTasks
     );
 
-    function handleAddTask(text) {
+    function handleAddTask(title) {
         dispatch({
             type: 'added',
             id: nextId++,
-            text: text,
+            title: title,
+            description: " "
         });
     }
 
@@ -42,17 +44,7 @@ export default function Todo() {
             p="$8" >
             <Heading size="2xl" fontWeight="bold" color="white" my="$2">To-do List</Heading>
 
-            <Button
-                onPress={() => setShowModal(true)}
-                ref={ref}
-                size="md"
-                variant="solid"
-                action="positive"
-                alignSelf="flex-start"
-                my="$4">
-                <ButtonText>Add</ButtonText>
-                <ButtonIcon as={AddIcon} />
-            </Button>
+            <AddTask onAddTask={handleAddTask} />
 
             <Modal
                 isOpen={showModal}
@@ -154,10 +146,10 @@ export default function Todo() {
 function tasksReducer(tasks, action) {
     switch (action.type) {
         case 'added': {
+            console.log(action);
             return [...tasks, {
                 id: action.id,
-                title: action.text,
-                description: action.description,
+                title: action.title,
                 done: false
             }];
         }
