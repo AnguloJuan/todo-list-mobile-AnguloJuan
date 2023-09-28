@@ -1,7 +1,7 @@
 import { Link } from 'expo-router';
 import React, { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import Input from '../components/input';
+import StyledInput from '../components/input';
 import BlueButton from '../components/blueButon';
 import HeadLogo from '../components/headLogo';
 
@@ -40,13 +40,13 @@ export default function signup() {
             <HeadLogo title={"Sign Up"} />
 
             <View style={styles.form}>
-                <Input label={"Username"} id={"username"} type={"text"} placeholder={"Type the username to display"}
+                <StyledInput label={"Username"} id={"username"} type={"text"} placeholder={"Type the username to display"}
                     autoComplete={"username"} required value={user.username} onChange={handleInputChange} invalid={invalidUsername} />
 
-                <Input label={"Email"} id={"email"} type={"email"} placeholder={"Type your email to be linked"}
+                <StyledInput label={"Email"} id={"email"} type={"email"} placeholder={"Type your email to be linked"}
                     autoComplete={"email"} required value={user.email} onChange={handleInputChange} invalid={invalidEmail} />
 
-                <Input label={"Password"} id={"password"} type={"password"} placeholder={"Type the password"}
+                <StyledInput label={"Password"} id={"password"} type={"password"} placeholder={"Type the password"}
                     autoComplete={"current-password"} required value={user.password} onChange={handleInputChange} />
 
                 <View>

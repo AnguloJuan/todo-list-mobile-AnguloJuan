@@ -6,6 +6,8 @@ export default function TaskList({
     onChangeTask,
     onDeleteTask
 }) {
+    const [showTaskModal, setShowTaskModal] = useState(false);
+
     return (
         <VStack width="100%">
             {tasks.map(task => (
@@ -25,6 +27,7 @@ export default function TaskList({
                             task={task}
                             onChange={onChangeTask}
                             onDelete={onDeleteTask}
+
                         />
                     </HStack>
                 </Pressable>
@@ -44,32 +47,58 @@ function Task({ task, onChange, onDelete }) {
 
     return (
         <>
-            <Checkbox
-                size="md"
-                isChecked={task.done}
-                onChange={e => {
-                    console.log(e);
-                    onChange({
-                        ...task,
-                        done: e
-                    });
-                }}
+            <HStack>
+                <Checkbox
+                    size="md"
+                    isChecked={task.done}
+                    onChange={e => {
+                        console.log(e);
+                        onChange({
+                            ...task,
+                            done: e
+                        },
+                            onDelete(task.id),
+                        );
+                    }}>
+                    <CheckboxIndicator mr="$2">
+                        <CheckboxIcon as={CheckIcon} />
+                    </CheckboxIndicator>
+                </Checkbox >
+                <Button
+                    size="md"
+                    fontSize={16}
+                    color="white"
+                    variant="link"
+                    overflow='hidden'
+                    ref={ref}
+                    onPress={() => setShowTaskModal(true)}
+                >
+                    {task.title}
+                </Button>
+            </HStack>
+
+            <Button
+                mx="$0.5"
+                display="none"
+                color="white"
+                variant="link"
+                overflow='hidden'
                 sx={{
-                    ":checked": {
-                        title: {
-                            title: "line-through",
-                        }
-                    }
-                }}>
-                <CheckboxIndicator mr="$2">
-                    <CheckboxIcon as={CheckIcon} />
-                </CheckboxIndicator>
-                <CheckboxLabel color="white">{task.title}</CheckboxLabel>
-            </Checkbox>
+                    "@lg": {
+                        maxWidth: 480,
+                    },
+                    "@sm": {
+                        maxWidth: 240,
+                        display: "flex",
+                    },
+                }}
+                ref={ref}
+                onPress={() => setShowTaskModal(true)}
+            >
+                {task.description}
+            </Button>
 
-            <Button mx="$0.5" minWidth={"$1/3"} color="white" variant="link" ref={ref} onPress={() => setShowTaskModal(true)}>{task.description}</Button>
-
-            <Button size="sm" variant="solid" action="negative" alignSelf="flex-end" onPress={() => setShowDeleteModal(true)}>
+            <Button size="sm" variant="solid" action="negative" onPress={() => setShowDeleteModal(true)}>
                 <ButtonIcon as={CloseIcon} />
             </Button>
 

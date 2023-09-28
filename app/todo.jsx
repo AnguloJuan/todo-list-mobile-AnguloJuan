@@ -46,76 +46,6 @@ export default function Todo() {
 
             <AddTask onAddTask={handleAddTask} />
 
-            <Modal
-                isOpen={showModal}
-                onClose={() => {
-                    setShowModal(false)
-                }}
-                finalFocusRef={ref}
-                size="md"
-                scrollBehavior="inside"
-            >
-                <ModalBackdrop />
-                <ModalContent bgColor="$coolGray700">
-                    <ModalHeader>
-                        <Heading size="lg" color="white">Add a new task</Heading>
-                        <ModalCloseButton stroke={"$wihte"} bgColor="$coolGray600">
-                            <Icon as={CloseIcon} stroke="white" />
-                        </ModalCloseButton>
-                    </ModalHeader>
-                    <ModalBody color="white">
-                        <Text mb="$2" color="white">Task title</Text>
-                        <Input
-                            variant="outline"
-                            size="md"
-                            sx={{
-                                ":focus": {
-                                    borderColor: "$blue500"
-                                }
-                            }}
-                        >
-                            <InputField color="white" placeholder="Task title" />
-                        </Input>
-                        <Text mt="$4" mb="$2" color="white">Task description</Text>
-                        <Textarea variant="outline" size="md" sx={{
-                            ":focus": {
-                                borderColor: "$blue500"
-                            }
-                        }}>
-                            <TextareaInput color="white" placeholder="Task description" />
-                        </Textarea>
-                    </ModalBody>
-                    <ModalFooter>
-                        <Button
-                            variant="outline"
-                            size="sm"
-                            action="secondary"
-                            mr="$3"
-                            sx={{
-                                ":hover": {
-                                    bgColor: "$coolGray600"
-                                }
-                            }}
-                            onPress={() => {
-                                setShowModal(false)
-                            }}
-                        >
-                            <ButtonText color="white">Cancel</ButtonText>
-                        </Button>
-                        <Button
-                            size="sm"
-                            action="positive"
-                            borderWidth="$0"
-                            onPress={() => {
-                                setShowModal(false)
-                            }}
-                        >
-                            <ButtonText>Add</ButtonText>
-                        </Button>
-                    </ModalFooter>
-                </ModalContent>
-            </Modal>
-
             <HStack
                 width="100%"
                 height="$10"
@@ -128,8 +58,34 @@ export default function Todo() {
                 px="$4">
                 <Text color="white">Task</Text>
                 <Divider orientation="vertical" height="100%" />
-                <Text color="white">Description</Text>
-                <Divider orientation="vertical" height="100%" />
+                <Text
+                    color="white"
+                    display="none"
+                    sx={{
+                        "@lg": {
+                            maxWidth: 480,
+                        },
+                        "@sm": {
+                            maxWidth: 240,
+                            display: "flex",
+                        },
+                    }}
+                >
+                    Description
+                </Text>
+                <Divider
+                    orientation="vertical"
+                    height="100%"
+                    display="none"
+                    sx={{
+                        "@lg": {
+                            maxWidth: 480,
+                        },
+                        "@sm": {
+                            maxWidth: 240,
+                            display: "flex",
+                        },
+                    }} />
                 <Text color="white">Actions</Text>
             </HStack>
 
@@ -173,7 +129,7 @@ function tasksReducer(tasks, action) {
 
 let nextId = 3;
 const initialTasks = [
-    { id: 0, title: 'Philosopher’s Path', description: '', done: true },
-    { id: 1, title: 'Visit the temple', description: '', done: false },
-    { id: 2, title: 'Drink matcha', description: '', done: false }
+    { id: 0, title: 'Learning React', description: 'Learn React basics, learn reducer hook...jdaskjdbjsadbksdbksjdbakjsbdaskjdbj', done: false },
+    { id: 1, title: 'Walk the dog', description: '', done: false },
+    { id: 2, title: 'Do the groceries', description: '-Milk, -Bread, -Eggs,... ', done: false }
 ];
