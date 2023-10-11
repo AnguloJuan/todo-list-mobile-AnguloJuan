@@ -1,106 +1,121 @@
-import { Link } from 'expo-router';
-import React, { useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import StyledInput from '../components/input';
-import BlueButton from '../components/blueButon';
-import HeadLogo from '../components/headLogo';
+import { Link } from "expo-router";
+import React, { useState } from "react";
+import { StyleSheet } from "react-native";
+import StyledInput from "../components/input";
+import BlueButton from "../components/blueButon";
+import HeadLogo from "../components/headLogo";
+import { Box, Text, VStack } from "@gluestack-ui/themed";
 
 export default function signup() {
-    const [user, setUser] = useState({
-        username: '',
-        email: '',
-        password: ''
-    });
-    var [invalidEmail, setInvalidEmail] = useState(false);
-    var [invalidUsername, setInvalidUsername] = useState(false);
+  const [user, setUser] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
+  var [invalidEmail, setInvalidEmail] = useState(false);
+  var [invalidUsername, setInvalidUsername] = useState(false);
 
-    // Function to handle input changes
-    const handleInputChange = (e) => {
-        const { id, value } = e.target;
+  // Function to handle input changes
+  const handleInputChange = (e) => {
+    const { id, value } = e.target;
 
-        //validation
-        if ((id === 'username') && !value.match(/^[a-zA-Z]+$/)) {
-            setInvalidUsername(true);
-            return;
-        } else {
-            setInvalidUsername(false);
-        }
-
-        if ((id === 'email') && !value.match(/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i)) {
-            setInvalidEmail(true);
-            return;
-        } else {
-            setInvalidEmail(false);
-        }
-
-        setUser((prevCriteria) => ({ ...prevCriteria, [id]: value }));
+    //validation
+    if (id === "username" && !value.match(/^[a-zA-Z]+$/)) {
+      setInvalidUsername(true);
+      return;
+    } else {
+      setInvalidUsername(false);
     }
-    return (
-        <View style={styles.container}>
-            <HeadLogo title={"Sign Up"} />
 
-            <View style={styles.form}>
-                <StyledInput label={"Username"} id={"username"} type={"text"} placeholder={"Type the username to display"}
-                    autoComplete={"username"} required value={user.username} onChange={handleInputChange} invalid={invalidUsername} />
+    if (
+      id === "email" &&
+      !value.match(
+        /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
+      )
+    ) {
+      setInvalidEmail(true);
+      return;
+    } else {
+      setInvalidEmail(false);
+    }
 
-                <StyledInput label={"Email"} id={"email"} type={"email"} placeholder={"Type your email to be linked"}
-                    autoComplete={"email"} required value={user.email} onChange={handleInputChange} invalid={invalidEmail} />
+    setUser((prevCriteria) => ({ ...prevCriteria, [id]: value }));
+  };
+  return (
+    <VStack px={32} py={48} alignItems="center" minHeight={"$full"}>
+      <HeadLogo title={"Sign Up"} />
 
-                <StyledInput label={"Password"} id={"password"} type={"password"} placeholder={"Type the password"}
-                    autoComplete={"current-password"} required value={user.password} onChange={handleInputChange} />
+      <Box mt={16} width={"$full"} maxWidth={384}>
+        <StyledInput
+          label={"Username"}
+          id={"username"}
+          type={"text"}
+          placeholder={"Type the username to display"}
+          autoComplete={"username"}
+          required
+          value={user.username}
+          onChange={handleInputChange}
+          invalid={invalidUsername}
+        />
 
-                <View>
-                    <BlueButton title={"Sign Up"} />
-                </View>
+        <StyledInput
+          label={"Email"}
+          id={"email"}
+          type={"email"}
+          placeholder={"Type your email to be linked"}
+          autoComplete={"email"}
+          required
+          value={user.email}
+          onChange={handleInputChange}
+          invalid={invalidEmail}
+        />
 
-                <Text style={{
-                    marginTop: 24,
-                    fontSize: 14,
-                    lineHeight: 20,
-                    textAlign: "center",
-                    color: "#6B7280",
-                }}>
-                    or
-                </Text>
+        <StyledInput
+          label={"Password"}
+          id={"password"}
+          type={"password"}
+          placeholder={"Type the password"}
+          autoComplete={"current-password"}
+          required
+          value={user.password}
+          onChange={handleInputChange}
+        />
 
-                <Text style={{
-                    marginTop: 12,
-                    fontSize: 14,
-                    lineHeight: 20,
-                    textAlign: "center",
-                    color: "#6B7280",
-                }}>
-                    <Link href={"/login"} style={styles.link}>
-                        Login
-                    </Link>
-                </Text>
-            </View>
-        </View>
-    );
+        <Box>
+          <BlueButton title={"Sign Up"} />
+        </Box>
+
+        <Text
+          mt={24}
+          fontSize={14}
+          lineHeight={20}
+          textAlign="center"
+          color="$white"
+        >
+          or
+        </Text>
+
+        <Text
+          mt={12}
+          fontSize={14}
+          lineHeight={20}
+          textAlign="center"
+          color="$white"
+        >
+          <Link href={"/login"} style={styles.link}>
+            Login
+          </Link>
+        </Text>
+      </Box>
+    </VStack>
+  );
 }
 
-
 const styles = StyleSheet.create({
-    container: {
-        display: "flex",
-        paddingLeft: 32,
-        paddingRight: 32,
-        paddingTop: 48,
-        paddingBottom: 48,
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        minHeight: "100%"
-    },
-    form: {
-        marginTop: 16,
-        width: "100%",
-        maxWidth: 384,
-    },
-    link: {
-        alignSelf: 'center',
-        fontWeight: 600,
-        lineHeight: 24,
-        color: "#60A5FA",
-    }
+  link: {
+    alignSelf: "center",
+    fontWeight: 600,
+    lineHeight: 24,
+    color: "#60A5FA",
+  },
 });

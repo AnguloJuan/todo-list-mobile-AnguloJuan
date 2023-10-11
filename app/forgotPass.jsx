@@ -1,91 +1,88 @@
-import { Link } from 'expo-router';
-import React, { useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import Input from '../components/input';
-import BlueButton from '../components/blueButon';
-import HeadLogo from '../components/headLogo';
+import { Link } from "expo-router";
+import React, { useState } from "react";
+import { StyleSheet } from "react-native";
+import BlueButton from "../components/blueButon";
+import HeadLogo from "../components/headLogo";
+import { Box, Text, VStack } from "@gluestack-ui/themed";
+import StyledInput from "../components/input";
 
 export default function signup() {
-    const [user, setUser] = useState({
-        email: '',
-    });
-    var [invalidEmail, setInvalidEmail] = useState(false);
+  const [user, setUser] = useState({
+    email: "",
+  });
+  var [invalidEmail, setInvalidEmail] = useState(false);
 
-    // Function to handle input changes
-    const handleInputChange = (e) => {
-        const { id, value } = e.target;
+  // Function to handle input changes
+  const handleInputChange = (e) => {
+    const { id, value } = e.target;
 
-        //validation
-        if ((id === 'email') && !value.match(/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i)) {
-            setInvalidEmail(true);
-            return;
-        } else {
-            setInvalidEmail(false);
-        }
-
-        setUser((prevCriteria) => ({ ...prevCriteria, [id]: value }));
+    //validation
+    if (
+      id === "email" &&
+      !value.match(
+        /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
+      )
+    ) {
+      setInvalidEmail(true);
+      return;
+    } else {
+      setInvalidEmail(false);
     }
-    return (
-        <View style={styles.container}>
-            <HeadLogo title={"Forgot Password"} />
 
-            <View style={styles.form}>
+    setUser((prevCriteria) => ({ ...prevCriteria, [id]: value }));
+  };
+  return (
+    <VStack px={32} py={48} alignItems="center" minHeight={"$full"}>
+      <HeadLogo title={"Forgot Password"} />
 
-                <Input label={"Email"} id={"email"} type={"email"} placeholder={"Type your email"}
-                    autoComplete={"email"} required value={user.email} onChange={handleInputChange} invalid={invalidEmail} />
+      <Box mt={16} width={"$full"} maxWidth={384}>
+        <StyledInput
+          label={"Email"}
+          id={"email"}
+          type={"email"}
+          placeholder={"Type your email"}
+          autoComplete={"email"}
+          required
+          value={user.email}
+          onChange={handleInputChange}
+          invalid={invalidEmail}
+        />
 
-                <View>
-                    <BlueButton title={"Send"} />
-                </View>
+        <Box>
+          <BlueButton title={"Send"} />
+        </Box>
 
-                <Text style={{
-                    marginTop: 24,
-                    fontSize: 14,
-                    lineHeight: 20,
-                    textAlign: "center",
-                    color: "#6B7280",
-                }}>
-                    or
-                </Text>
+        <Text
+          mt={24}
+          fontSize={14}
+          lineHeight={20}
+          textAlign="center"
+          color="$white"
+        >
+          or
+        </Text>
 
-                <Text style={{
-                    marginTop: 12,
-                    fontSize: 14,
-                    lineHeight: 20,
-                    textAlign: "center",
-                    color: "#6B7280",
-                }}>
-                    <Link href={"/login"} style={styles.link}>
-                        Login
-                    </Link>
-                </Text>
-            </View>
-        </View>
-    );
+        <Text
+          mt={12}
+          fontSize={14}
+          lineHeight={20}
+          textAlign="center"
+          color="$white"
+        >
+          <Link href={"/login"} style={styles.link}>
+            Login
+          </Link>
+        </Text>
+      </Box>
+    </VStack>
+  );
 }
 
-
 const styles = StyleSheet.create({
-    container: {
-        display: "flex",
-        paddingLeft: 32,
-        paddingRight: 32,
-        paddingTop: 48,
-        paddingBottom: 48,
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        minHeight: "100%"
-    },
-    form: {
-        marginTop: 16,
-        width: "100%",
-        maxWidth: 384,
-    },
-    link: {
-        alignSelf: 'center',
-        fontWeight: 600,
-        lineHeight: 24,
-        color: "#60A5FA",
-    }
+  link: {
+    alignSelf: "center",
+    fontWeight: 600,
+    lineHeight: 24,
+    color: "#60A5FA",
+  },
 });
